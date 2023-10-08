@@ -1,4 +1,8 @@
 #include <iostream>
+#include <string>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 
 using namespace std;
 
@@ -6,16 +10,13 @@ int main() {
 
     //navigate to appdata folder
     string path = getenv("APPDATA");
-    cout << path << endl;
-    //remove "roaming" from path
     path.erase(path.end()-8, path.end());
-    cout << path << endl;
-    //add "local" to path
     path.append("\\LocalLow\\DoctorShinobi\\Outcore\\save.me");
-    cout << path << endl;
-    char filename[] = "C:\\Users\\cohen\\AppData\\LocalLow\\DoctorShinobi\\Outcore\\save.me";
 
-    remove(filename);
+    //convert path to char array
+    char *cpath = new char[path.length() + 1];
+    strcpy(cpath, path.c_str());
+    remove(cpath);
 
     return 0;
 }
