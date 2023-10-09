@@ -4,6 +4,10 @@
 #include <cstdio>
 #include <cstring>
 #include <windows.h>
+#include <dirent.h>
+#include <vector>
+#include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -14,9 +18,51 @@ bool createSave(string appPath, string savesPath, string name) {
 }
 
 bool deleteSave(string savesPath, string name) {
-    remove((savesPath + "\\" + name + ".s.me").c_str());
-    remove((savesPath + "\\" + name + ".f.me").c_str());
+    if (remove((savesPath + "\\" + name + ".s.me").c_str()) == -1) {
+        return false;
+    }
+    if (remove((savesPath + "\\" + name + ".f.me").c_str()) == -1) {
+        return false;
+    }
     return true;
+}
+
+bool listSaves(string savesPath) {
+    struct dirent *entry = nullptr;
+    DIR *dp = nullptr;
+
+    dp = opendir(savesPath.c_str());
+    vector<string> folderNames;
+    if (dp != nullptr) {
+        int i = 0;
+        while ((entry = readdir(dp))){
+            folderNames.push_back(entry->d_name);
+            i++;
+        }
+        if (i > 0) {
+            cout << "Successfully read " << i << " files." << endl;
+            for (int j = 0; j < folderNames.size(); j++) {
+                cout << folderNames[j] << endl;
+            }
+        } else {
+            cout << "No files detected in directory." << endl;
+            int exit;
+            cin >> exit;
+            return false;
+        }
+    } else {
+        cout << "Error opening directory." << endl;
+        return false;
+    }
+    closedir(dp);
+}
+
+//function that removes all spaces from a string
+string formatName(string input) {
+    input.erase(remove(input.begin(), input.end(), ' '), input.end());
+    input.erase(remove(input.begin(), input.end(), '\\'), input.end());
+    input.erase(remove(input.begin(), input.end(), '/'), input.end());
+    return input;
 }
 
 int main() {
@@ -30,9 +76,12 @@ int main() {
     string savesPath = "..\\saves";
 
 
-    //remove(appPath.c_str());
 
-    createSave(appPath, savesPath, "test");
+    //createSave(appPath, savesPath, "test");
+    //deleteSave(savesPath, "test");
+
+    listSaves(savesPath);
+
     deleteSave(savesPath, "test");
 
     return 0;
