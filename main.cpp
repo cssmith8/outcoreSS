@@ -1,10 +1,5 @@
-#include <iostream>
 #include <string>
 #include <cstdlib>
-#include <cstdio>
-#include <windows.h>
-#include <dirent.h>
-#include <vector>
 
 #include "manageSaves.h"
 
@@ -19,8 +14,6 @@ int main() {
 
     //save path to saves folder
     string savesPath = "..\\saves";
-
-
 
     createSave(appPath, savesPath, "test");
     //deleteSave(savesPath, "test");

@@ -13,13 +13,15 @@
 #include "format.cpp"
 
 
-bool createSave(string appPath, string savesPath, string name);
+bool createSave(const string& appPath, const string& savesPath, string name);
 
-bool deleteSave(string savesPath, string name);
+bool deleteSave(const string& savesPath, string name);
 
-bool listSaves(string savesPath);
+pair<bool, vector<string>> getSaves(const string& savesPath);
 
-bool loadSave(string appPath, string savesPath, string name);
+bool loadSave(const string& appPath, const string& savesPath, string name);
+
+void listSaves(const string& savesPath, bool header = true);
 
 
 #endif //OUTCORESS_MANAGESAVES_H
